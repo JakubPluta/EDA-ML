@@ -8,3 +8,5 @@ Kiva/kiva_loans.csv
 Kiva/kiva_mpi_region_locations.csv
 Kiva/loan_themes_by_region.csv
 Kiva/loan_theme_ids.csv
+PUBG/test_V2.csv
+PUBG/train_V2.csv
