@@ -3,6 +3,7 @@ import bs4
 from bs4 import BeautifulSoup as BS
 import urllib
 import pandas as pd
+import numpy as np
 import re
 pd.set_option('max_colwidth',500)
 
@@ -22,7 +23,7 @@ soup = BS(p.text,'html.parser')
 data = pd.DataFrame()
 
 # We can only scrape 100 sites
-pages = range(1,101)
+pages = range(1,5)
 
 
 for i in pages:
@@ -76,5 +77,25 @@ for i in pages:
         'Culture_rating': None
         }, ignore_index=True)
 
-print(data.describe())
+##print(data.describe())
 
+#df = data
+
+for i in range(0,len(data)):
+    comp_target = data.iloc[i]['Company Name']
+    #print(comp_target)
+    comp_link = data.iloc[i]['Company Link']
+    if comp_link != None:
+        print(comp_link)
+        t2 = req.get(comp_link)
+        #print(t2)
+        s2 = BS(t2.text, 'html.parser')
+        #print(s2)
+        rating = s2.find_all(name='td',attrs={'class' : 'cmp-RatingCategory-rating'})
+        Work_LifeBalance = float((rating[0].text))
+        Compensation_Benefits = float(rating[1].text)
+        JobSecurity_Advancement = float(rating[2].text)
+        Management = float(rating[3].text)
+        Culture = float(rating[4].text)
+        Overall_Rating = round(np.mean((Work_LifeBalance,Compensation_Benefits,JobSecurity_Advancement,Management,Culture)),2)
+        print(Overall_Rating)
