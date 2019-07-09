@@ -23,7 +23,7 @@ soup = BS(p.text,'html.parser')
 data = pd.DataFrame()
 
 # We can only scrape 100 sites
-pages = range(1,5)
+pages = range(1,101)
 
 
 for i in pages:
