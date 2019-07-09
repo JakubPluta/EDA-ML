@@ -79,23 +79,43 @@ for i in pages:
 
 ##print(data.describe())
 
-#df = data
-
 for i in range(0,len(data)):
     comp_target = data.iloc[i]['Company Name']
     #print(comp_target)
     comp_link = data.iloc[i]['Company Link']
     if comp_link != None:
-        print(comp_link)
+        #print(comp_link)
         t2 = req.get(comp_link)
         #print(t2)
         s2 = BS(t2.text, 'html.parser')
         #print(s2)
         rating = s2.find_all(name='td',attrs={'class' : 'cmp-RatingCategory-rating'})
-        Work_LifeBalance = float((rating[0].text))
-        Compensation_Benefits = float(rating[1].text)
-        JobSecurity_Advancement = float(rating[2].text)
-        Management = float(rating[3].text)
-        Culture = float(rating[4].text)
-        Overall_Rating = round(np.mean((Work_LifeBalance,Compensation_Benefits,JobSecurity_Advancement,Management,Culture)),2)
-        print(Overall_Rating)
+        if rating[0] != None:
+            Work_LifeBalance = float((rating[0].text))
+        else:
+                None
+        if rating[0] != None:
+            Compensation_Benefits = float(rating[1].text)
+        else:
+            None
+        if rating[0] != None:
+            JobSecurity_Advancement = float(rating[2].text)
+        else:
+            None
+        if rating[0] != None:
+            Management = float(rating[3].text)
+        else:
+            None
+        if rating[0] != None:
+            Culture = float(rating[4].text)
+        else:
+            None
+        Overall_RatingF = round(np.mean((Work_LifeBalance,Compensation_Benefits,JobSecurity_Advancement,Management,Culture)),2)
+        data.loc[data['Company Name']==comp_target,'Overall_rating'] = Overall_RatingF
+        data.loc[data['Company Name']==comp_target,'wl_bal_rating'] = Work_LifeBalance
+        data.loc[data['Company Name']==comp_target,'benefit_rating'] = Compensation_Benefits
+        data.loc[data['Company Name']==comp_target,'jsecurity_rating'] = JobSecurity_Advancement
+        data.loc[data['Company Name']==comp_target,'mgmt_rating'] = Management
+        data.loc[data['Company Name']==comp_target,'Culture_rating'] = Culture
+
+data.to_csv(r'D:\PycharmProjects\dataIndeed.csv')
