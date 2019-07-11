@@ -26,6 +26,7 @@ data = pd.DataFrame()
 pages = range(1,101)
 
 
+
 for i in pages:
     i = (i-1)*10
     u = f'{USA_URL_base}{job}{jobtype}{jt}{st}{sort_options}{start_page}{i}'
@@ -93,7 +94,7 @@ for i in range(0,len(data)):
         if rating[0] != None:
             Work_LifeBalance = float((rating[0].text))
         else:
-                None
+            None
         if rating[0] != None:
             Compensation_Benefits = float(rating[1].text)
         else:
